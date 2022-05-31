@@ -1,0 +1,16 @@
+.timer {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.value {
+  font-size: 46px;
+  font-weight: 600;
+}
