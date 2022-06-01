@@ -13,10 +13,10 @@ function onSubmit(e) {
   e.preventDefault();
   refs.submitBtn.disabled = true;
 
-  const {
-    target: { delay, step, amount },
-  } = e;
+  createPromises(e);
+}
 
+function createPromises({ target: { delay, step, amount } }) {
   let delayVal = Number(delay.value);
   const stepVal = Number(step.value);
   const amountVal = Number(amount.value);
@@ -40,12 +40,6 @@ function onSubmit(e) {
   }
 }
 
-function UnlockBtn(delay) {
-  setTimeout(() => {
-    refs.submitBtn.disabled = false;
-  }, delay + timeoutAlert);
-}
-
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
@@ -58,4 +52,10 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
+}
+
+function UnlockBtn(delay) {
+  setTimeout(() => {
+    refs.submitBtn.disabled = false;
+  }, delay + timeoutAlert);
 }
