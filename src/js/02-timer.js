@@ -9,6 +9,7 @@ const refs = {
   timerHours: document.querySelector('[data-hours]'),
   timerMinutes: document.querySelector('[data-minutes]'),
   timerSeconds: document.querySelector('[data-seconds]'),
+  separators: document.querySelectorAll('.sep'),
 };
 
 const options = {
@@ -34,7 +35,8 @@ const options = {
 
 const fp = flatpickr('#datetime-picker', options);
 
-let intId;
+let timerIntId;
+let sepIntId;
 const STORAGE_KEY = 'selected-date';
 
 refs.startBtn.addEventListener('click', onStartBtn);
@@ -57,9 +59,11 @@ function onResetBtn() {
   refs.startBtn.disabled = true;
   document.querySelector('#datetime-picker').disabled = false;
   refs.resetBtn.disabled = true;
+  refs.separators.forEach(el => el.classList.add('hidden'));
 
   updateTimer(convertMs(0));
-  clearInterval(intId);
+  clearInterval(timerIntId);
+  clearInterval(sepIntId);
 
   localStorage.removeItem(STORAGE_KEY);
   localStorage.removeItem('isStarted');
@@ -67,7 +71,8 @@ function onResetBtn() {
 
 function startTimer() {
   onTick();
-  intId = setInterval(onTick, 1000);
+  timerIntId = setInterval(onTick, 1000);
+  sepIntId = setInterval(sepOnTick, 500);
 }
 
 function onTick() {
@@ -77,7 +82,8 @@ function onTick() {
   const leftTime = convertMs(deltaTime);
 
   if (deltaTime <= 0) {
-    clearInterval(intId);
+    clearInterval(timerIntId);
+    clearInterval(sepIntId);
     return;
   }
 
@@ -89,6 +95,10 @@ function updateTimer({ days, hours, minutes, seconds }) {
   refs.timerHours.textContent = hours;
   refs.timerMinutes.textContent = minutes;
   refs.timerSeconds.textContent = seconds;
+}
+
+function sepOnTick() {
+  refs.separators.forEach(el => el.classList.toggle('hidden'));
 }
 
 function pad(value) {
