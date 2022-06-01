@@ -59,7 +59,7 @@ function onResetBtn() {
   refs.startBtn.disabled = true;
   document.querySelector('#datetime-picker').disabled = false;
   refs.resetBtn.disabled = true;
-  refs.separators.forEach(el => el.classList.add('hidden'));
+  refs.separators.forEach(el => el.classList.remove('hidden'));
 
   updateTimer(convertMs(0));
   clearInterval(timerIntId);
